@@ -7,8 +7,8 @@ from qtpy.QtWidgets import (QCheckBox, QDialog, QDialogButtonBox, QInputDialog,
                             QLabel, QLineEdit, QListWidget, QListWidgetItem,
                             QMenu, QVBoxLayout)
 
-from .config import CONFIG
-from .utils import show_warning_dialog
+from config import CONFIG
+from utils import show_warning_dialog
 
 
 class Column:

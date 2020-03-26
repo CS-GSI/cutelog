@@ -2,19 +2,19 @@ from collections import deque
 from datetime import datetime
 from functools import partial
 
-from qtpy.QtCore import (QAbstractItemModel, QAbstractTableModel, QEvent,
+from qtpy.QtCore import (QAbstractItemModel , QAbstractTableModel, QEvent,
                          QModelIndex, QSize, QSortFilterProxyModel, Qt)
 from qtpy.QtGui import QBrush, QColor, QFont
 from qtpy.QtWidgets import (QCheckBox, QHBoxLayout, QMenu, QShortcut, QStyle,
                             QTableWidgetItem, QWidget)
 
-from .config import CONFIG, Exc_Indication
-from .level_edit_dialog import LevelEditDialog
-from .levels_preset_dialog import LevelsPresetDialog
-from .log_levels import NO_LEVEL, LevelFilter, LogLevel, get_default_level
-from .logger_table_header import HeaderEditDialog, LoggerTableHeader
-from .text_view_dialog import TextViewDialog
-from .utils import loadUi
+from config import CONFIG, Exc_Indication
+from level_edit_dialog import LevelEditDialog
+from levels_preset_dialog import LevelsPresetDialog
+from log_levels import NO_LEVEL, LevelFilter, LogLevel, get_default_level
+from logger_table_header import HeaderEditDialog, LoggerTableHeader
+from text_view_dialog import TextViewDialog
+from utils import loadUi
 
 INVALID_INDEX = QModelIndex()
 SearchRole = 256
@@ -841,10 +841,11 @@ class LoggerTab(QWidget):
         index = indexes[0]
         record = self.get_record(index)
         self.detail_model.set_record(record)
+        self.detailTable.resizeRowsToContents()
 
     def open_text_view_dialog(self, index, exception=False):
         record = self.get_record(index)
-        d = TextViewDialog(self.main_window, record.exc_text if exception else record.message)
+        d = TextViewDialog(self.main_window, str(record))
         d.setWindowModality(Qt.NonModal)
         d.setAttribute(Qt.WA_DeleteOnClose, True)
         d.setWindowTitle('Exception traceback' if exception else 'View message')

@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from qtpy.QtGui import QColor
 
-from .config import CONFIG
+from config import CONFIG
 
 
 class LogLevel:

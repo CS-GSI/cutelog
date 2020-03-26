@@ -1,8 +1,8 @@
 # from qtpy.uic import loadUi
 from qtpy.QtWidgets import QDialog
 
-from .config import CONFIG
-from .utils import loadUi
+from config import CONFIG
+from utils import loadUi
 
 
 class AboutDialog(QDialog):

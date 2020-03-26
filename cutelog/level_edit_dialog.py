@@ -7,7 +7,7 @@ from qtpy.QtWidgets import (QCheckBox, QColorDialog, QDialog, QDialogButtonBox,
                             QFormLayout, QGridLayout, QGroupBox, QLabel,
                             QLineEdit, QSizePolicy, QSpacerItem)
 
-from .log_levels import DEFAULT_LEVELS, NO_LEVEL, LogLevel
+from log_levels import DEFAULT_LEVELS, NO_LEVEL, LogLevel
 
 
 class LevelEditDialog(QDialog):

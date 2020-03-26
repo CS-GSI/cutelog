@@ -3,7 +3,7 @@ from qtpy.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLayout,
                             QPlainTextEdit, QPushButton, QSizePolicy,
                             QSpacerItem, QVBoxLayout)
 
-from .config import CONFIG
+from config import CONFIG
 
 
 class TextViewDialog(QDialog):

@@ -155,7 +155,7 @@ class Config(QObject):
         return path
 
     def get_ui_qfile(self, name):
-        file = QFile(':/ui/{}'.format(name))
+        file = QFile('ui/{}'.format(name))
         if not file.exists():
             raise FileNotFoundError('ui file not found: ":/ui/{}"'.format(name))
         file.open(QFile.ReadOnly)
@@ -266,7 +266,7 @@ class Config(QObject):
         s.endGroup()
 
     def load_levels_preset(self, name):
-        from .log_levels import LogLevel
+        from log_levels import LogLevel
         self.log.debug('Loading levels preset "{}"'.format(name))
         s = self.qsettings
         if name not in self.get_levels_presets():
@@ -311,7 +311,7 @@ class Config(QObject):
         s.endGroup()
 
     def load_header_preset(self, name):
-        from .logger_table_header import Column
+        from logger_table_header import Column
         self.log.debug('Loading header preset "{}"'.format(name))
         s = self.qsettings
         if name not in self.get_header_presets():

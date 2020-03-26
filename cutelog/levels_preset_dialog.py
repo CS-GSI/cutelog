@@ -8,10 +8,10 @@ from qtpy.QtWidgets import (QCheckBox, QDialog, QDialogButtonBox, QHBoxLayout,
                             QTableWidget, QTableWidgetItem, QVBoxLayout,
                             QWidget)
 
-from .config import CONFIG
-from .level_edit_dialog import LevelEditDialog
-from .log_levels import DEFAULT_LEVELS, get_default_level
-from .utils import show_warning_dialog
+from config import CONFIG
+from level_edit_dialog import LevelEditDialog
+from log_levels import DEFAULT_LEVELS, get_default_level
+from utils import show_warning_dialog
 
 
 class LevelsPresetDialog(QDialog):

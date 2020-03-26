@@ -2,14 +2,14 @@ from qtpy.QtCore import QFile, Qt, QTextStream
 from qtpy.QtWidgets import (QFileDialog, QInputDialog, QMainWindow, QMenuBar,
                             QStatusBar, QTabWidget)
 
-from .about_dialog import AboutDialog
-from .config import CONFIG
-from .listener import LogServer
-from .logger_tab import LoggerTab, LogRecord
-from .merge_dialog import MergeDialog
-from .pop_in_dialog import PopInDialog
-from .settings_dialog import SettingsDialog
-from .utils import (center_widget_on_screen, show_critical_dialog,
+from about_dialog import AboutDialog
+from config import CONFIG
+from listener import LogServer
+from logger_tab import LoggerTab, LogRecord
+from merge_dialog import MergeDialog
+from pop_in_dialog import PopInDialog
+from settings_dialog import SettingsDialog
+from utils import (center_widget_on_screen, show_critical_dialog,
                     show_warning_dialog)
 
 
