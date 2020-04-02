@@ -24,6 +24,8 @@ class SettingsDialog(QDialog):
 
         self.listenHostLine.textChanged.connect(self.server_options_changed)
         self.listenPortLine.textChanged.connect(self.server_options_changed)
+        self.listenHostLineZMQ.textChanged.connect(self.server_options_changed)
+        self.listenPortLineZMQ.textChanged.connect(self.server_options_changed)
 
         self.setup_tooltips()
 
@@ -70,6 +72,9 @@ class SettingsDialog(QDialog):
         i = self.serializationFormatCombo.findText(CONFIG['default_serialization_format'])
         if i != -1:
             self.serializationFormatCombo.setCurrentIndex(i)
+        self.listenHostLineZMQ.setText(CONFIG['listen_hostZMQ'])
+        self.listenPortLineZMQ.setValidator(QIntValidator(0, 65535, self))
+        self.listenPortLineZMQ.setText(str(CONFIG['listen_portZMQ']))
 
         # Advanced page
         self.logLevelLine.setValidator(QIntValidator(0, 1000, self))
@@ -106,6 +111,8 @@ class SettingsDialog(QDialog):
         o['single_tab_mode_default'] = self.singleTabCheckBox.isChecked()
         o['extra_mode_default'] = self.extraModeCheckBox.isChecked()
         o['default_serialization_format'] = self.serializationFormatCombo.currentText()
+        o['listen_hostZMQ'] = self.listenHostLineZMQ.text()
+        o['listen_portZMQ'] = int(self.listenPortLineZMQ.text())
 
         # Advanced
         o['benchmark_interval'] = float(self.benchmarkIntervalLine.text())

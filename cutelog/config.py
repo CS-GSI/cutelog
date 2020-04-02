@@ -72,6 +72,8 @@ OPTION_SPEC = (
     ('single_tab_mode_default',      bool, False),
     ('extra_mode_default',           bool, False),
     ('default_serialization_format', str,  'pickle'),
+    ('listen_hostZMQ',               str,  '0.0.0.0'),
+    ('listen_portZMQ',               int,  19997),
 
     # Advanced
     ('console_logging_level',        int,   30),

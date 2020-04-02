@@ -3,6 +3,9 @@ import pickle
 import struct
 import time
 
+import socket
+import zmq
+
 from qtpy.QtCore import QThread, Signal
 from qtpy.QtNetwork import QHostAddress, QTcpServer, QTcpSocket
 
@@ -10,6 +13,39 @@ from config import CONFIG, MSGPACK_SUPPORT, CBOR_SUPPORT
 from logger_tab import LogRecord
 from utils import show_critical_dialog
 
+class ZMQthread(QThread):
+    def __init__(self, hosttcp, porttcp, hostzmq, portzmq):
+        QThread.__init__(self)
+        self.hosttcp = hosttcp
+        self.porttcp = porttcp
+        self.hostzmq = hostzmq
+        self.portzmq = portzmq
+
+    def run(self):
+        time.sleep(1)
+
+        self.tcpsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcpsocket.connect((self.hosttcp, self.porttcp))
+        
+        self.zmqcontext = zmq.Context()
+        self.zmqsocket =  self.zmqcontext.socket(zmq.SUB)
+        self.zmqsocket.bind("tcp://{}:{}".format(self.hostzmq, self.portzmq))
+        self.zmqsocket.subscribe("")
+        self.stopped = False
+
+        while not self.stopped:
+            try:
+                #check for a message, this will not block
+                a = self.zmqsocket.recv(flags=zmq.NOBLOCK)
+                self.tcpsocket.send(a)
+            except zmq.Again:
+                time.sleep(0.1)
+
+        self.tcpsocket.close()
+        self.zmqcontext.destroy()
+
+    def stop(self):
+        self.stopped = True
 
 class LogServer(QTcpServer):
     def __init__(self, main_window, on_connection, log):
@@ -39,6 +75,13 @@ class LogServer(QTcpServer):
             self.threads.append(new_conn)
             new_conn.start()
 
+        hostTCP, portTCP = CONFIG.listen_address
+        hostZMQ = CONFIG.options.get('listen_hostZMQ')
+        portZMQ = CONFIG.options.get('listen_portZMQ')
+
+        self.zmqthread = ZMQthread(hostTCP, portTCP, hostZMQ, portZMQ)
+        self.zmqthread.start()
+
         result = self.listen(self.host, self.port)
         if not result:
             err_string = self.errorString()
@@ -64,6 +107,7 @@ class LogServer(QTcpServer):
         self.log.debug('Closing the server')
         self.main_window.set_status('Stopping the server...')
         self.close()
+        self.zmqthread.stop()
         for thread in self.threads.copy():
             thread.requestInterruption()
         self.wait_connections_stopped()
