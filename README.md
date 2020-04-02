@@ -1,3 +1,23 @@
+# Modifcations to integrate ZMQ SUB socket
+- I wanted cutelog to listen to ZMQ SUB socket beside the TCP socket to remove need for a wrapper application.
+- I just startet programming Python so don't take anything as good practice.
+- I probably did stuff wrong, especially since not knowing how to adapt a python module 
+- It works by running **__main__.pyw** locally
+- All changes are done in subfolder **cutelog**
+- I had to change relative imports to make it work (remove the **.** ) 
+  > from .config import ROOT_LOG --> from config import ROOT_LOG 
+- In **listerner.py** I added a **ZMQthread(QThread)** which is started and stopped by **LogServer**
+- **ZMQthread** opens a ZMQ SUB Socket and passes all received messages Cutelog-TCP-Socket
+- This design does not interfer with the internal cutelog implementation - also I am not experienced enough to properly add a ZMQ based **LogServer** implementation that runs in parallel. 
+- I added ZMQ server settings to global config-object (**config.py**) and to the settings-UI
+- EXE build via **pyinstaller** does not work for me (build does not fail, but exe does)
+
+---
+
+*original Cutelog Readme following*
+
+---
+
 # cutelog – GUI for logging
 [![PyPi](https://img.shields.io/pypi/v/cutelog.svg?style=flat-square)](https://pypi.python.org/pypi/cutelog)
 
